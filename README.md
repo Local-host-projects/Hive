@@ -1,66 +1,202 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+> *The collected wisdom of everyone who has survived what you're going through — given a voice.*
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Hive is a patient-powered health platform where lived experience becomes an AI character you can talk to. Built for the **Cavista Hackathon 2026** under the theme *"From Data to Prevention: AI as Your Health Partner."*
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## The Problem
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+When you get diagnosed with something, the scariest part isn't always the condition itself. It's the silence after. The *"what now."*
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+You search the internet and find clinical articles written for doctors. You find forums full of strangers you can't verify. You find statistics with no face, no voice, no story behind them.
 
-## Learning Laravel
+You are not looking for information. **You are looking for someone who has been there.**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+That person exists. Thousands of them do. Their wisdom is scattered, unstructured, and inaccessible — locked inside personal blogs, Reddit threads, and private conversations.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Healthcare has digitised records. It has not digitised experience. **Hive does.**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## What Hive Does
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Patients log their real journeys with illness — symptoms, treatments, coping strategies, emotional arc, and where they ended up. That data builds a living knowledge base grounded entirely in human stories.
 
-### Premium Partners
+When you search a condition, you don't get a list of articles.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+**You get a character** — an AI persona synthesized from every story ever logged about that condition. It speaks in first person. It carries emotional memory. You have a real conversation with it.
 
-## Contributing
+That character has **alter egos** — distinct voices representing different outcome paths:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Someone who recovered
+- Someone managing it long term  
+- Someone still in the middle of it right now
 
-## Code of Conduct
+Each alter ego is **named dynamically** — its identity emerges from the emotional texture of the stories that formed it. No two conditions produce the same personas because no two conditions feel the same.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## How It Works
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. Patients Log Their Stories
+Users contribute journal entries: condition, their story in their own words, and where they are now (active / chronic / recovered). No clinical structure imposed — just honest human writing.
+
+### 2. Weighted Search
+When a query comes in, Hive calls Gemini to expand it into **15 semantically weighted terms** — each token assigned a significance score from 1–10 based on medical and emotional relevance.
+
+```json
+[
+  {"term": "blood sugar", "semantic_weight": 10},
+  {"term": "insulin", "semantic_weight": 9},
+  {"term": "exhausted", "semantic_weight": 6},
+  {"term": "scared", "semantic_weight": 5}
+]
+```
+
+Every journal in the database is then scored by **Semantic Weight Density (SWD)**:
+
+```
+SWD = Σ(term_occurrences × semantic_weight) / total_word_count
+```
+
+This rewards stories that are *dense* with relevant signal — not just stories that mention a term once in passing. Journals are ranked by SWD into a stack.
+
+This is meaningfully different from standard retrieval. TF-IDF and BM25 weight by statistical frequency — how often a term appears relative to the corpus. Weighted search assigns weights by **semantic significance** — encoding medical and emotional knowledge directly into the query. The model decides what matters before it ever touches a document.
+
+### 3. Character Synthesis
+The top 5 ranked stories are fed to Gemini with a synthesis prompt. The output is not a chatbot with a database behind it — it is a **system prompt that becomes a living identity**, distilled from the specific cluster of human experiences that ranked highest for this query.
+
+The persona is stored directly in the chat record and governs every subsequent message in the conversation.
+
+### 4. Alter Ego Generation
+Stories are clustered by outcome. Each cluster is synthesized into a distinct alter ego voice. The names are not assigned — they are **generated from the emotional fingerprint** of each cluster. A recovery cluster full of slow, hard-won progress births a different name than one full of sudden remission.
+
+### 5. The Conversation
+The user meets the main character first, then chooses an alter ego that matches where they are. The chat continues with that alter ego's system prompt as its identity — warm, personal, and grounded in real human stories.
+
+---
+
+## Prevention Angle
+
+Hive is not reactive. The stories in the database reveal patterns — what people noticed before things got serious, what early interventions made the difference, what they wish they'd known at the start.
+
+When you talk to a character before you even have a diagnosis, you are receiving the preventive wisdom of everyone who came before you. **That is prevention — not a feature, but the architecture.**
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Backend | Laravel (PHP) |
+| Database | MySQL |
+| AI | Google Gemini 1.5 Flash |
+| Retrieval | Custom Weighted Search (SWD scoring) |
+| Frontend | Blade + Vanilla JS (glassmorphism UI) |
+
+---
+
+## Architecture
+
+```
+User Query
+    │
+    ▼
+Gemini → 15 Weighted Terms [{term, semantic_weight}]
+    │
+    ▼
+MySQL → Candidate Journals (LIKE match on condition + story)
+    │
+    ▼
+SWD Scorer → Ranked Journal Stack
+    │
+    ▼
+Gemini → Character Synthesis (top 5 stories → system prompt)
+    │
+    ▼
+Chat Record (persona stored as system prompt)
+    │
+    ▼
+User ↔ Alter Ego Conversation
+```
+
+---
+
+## Database Schema
+
+```sql
+users
+  id, username, email, password, timestamps
+
+journals
+  id, user (fk), condition (string), story (text), timestamps
+
+chats
+  id, user (fk), thread (json), persona (text), timestamps
+```
+
+---
+
+## Getting Started
+
+```bash
+git clone https://github.com/yourusername/hive.git
+cd hive
+
+composer install
+cp .env.example .env
+
+# Add your Gemini API key to .env
+GEMINI_API_KEY=your_key_here
+
+php artisan key:generate
+php artisan migrate
+php artisan db:seed --class=HiveSeeder
+
+php artisan serve
+```
+
+---
+
+## Key Endpoints
+
+```
+POST /persona/create       — Generate weighted search + synthesize character
+GET  /journals             — Browse all patient stories (infinite scroll)
+POST /journals             — Submit a new journal entry
+GET  /journals/{id}        — Read a single story
+GET  /chats/{id}           — Load a chat session
+POST /chats/{id}/message   — Send a message to the character
+```
+
+---
+
+## The Weighted Search — Why It Matters
+
+Standard RAG retrieves documents and hands them to the model. The model answers. The retrieval is static, happens once, and cannot improve.
+
+Weighted search encodes **what matters** before retrieval begins. The query is not a string — it is a ranked hierarchy of meaning. A story that mentions "insulin resistance" five times in a hundred words scores higher than one that mentions it once in a thousand. Signal density beats signal presence.
+
+Because the weights are AI-generated per query rather than statistically computed from the corpus, they carry **semantic and contextual knowledge** that frequency-based methods cannot. The system understands that "exhausted" and "chronic fatigue" are the same signal. That "scared" is diagnostically meaningful even though it's not a medical term.
+
+This is the retrieval layer. What it feeds — the character synthesis — is where Hive becomes something that has not existed before.
+
+---
+
+## What Makes Hive Novel
+
+Three stacked layers:
+
+**Infrastructure** — Semantically weighted query expansion with density-based document scoring. Retrieval that understands what matters, not just what matches.
+
+**Architecture** — Patient stories are not context for an LLM. They *become* the LLM's identity. Experience distillation, not retrieval augmentation.
+
+**Product** — Dynamically emergent alter egos. The character names itself from the data. No two conditions produce the same personas.
+
+> *"We don't retrieve information. We distill human experience into a voice you can talk to."*
+
+
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT
