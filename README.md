@@ -1,3 +1,4 @@
+Slides is available at: https://docs.google.com/presentation/d/10te5Z1sVIUvHXg76Ipe_IB1VnyLsPSOI/edit?usp=drive_link&ouid=110399979859096003463&rtpof=true&sd=true
 > *The collected wisdom of everyone who has survived what you're going through — given a voice.*
 
 Hive is a patient-powered health platform where lived experience becomes an AI character you can talk to. Built for the **Cavista Hackathon 2026** under the theme *"From Data to Prevention: AI as Your Health Partner."*
