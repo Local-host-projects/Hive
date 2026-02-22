@@ -183,20 +183,3 @@ This is the retrieval layer. What it feeds — the character synthesis — is wh
 
 ---
 
-## What Makes Hive Novel
-
-Three stacked layers:
-
-**Infrastructure** — Semantically weighted query expansion with density-based document scoring. Retrieval that understands what matters, not just what matches.
-
-**Architecture** — Patient stories are not context for an LLM. They *become* the LLM's identity. Experience distillation, not retrieval augmentation.
-
-**Product** — Dynamically emergent alter egos. The character names itself from the data. No two conditions produce the same personas.
-
-> *"We don't retrieve information. We distill human experience into a voice you can talk to."*
-
-
-
-## License
-
-MIT
